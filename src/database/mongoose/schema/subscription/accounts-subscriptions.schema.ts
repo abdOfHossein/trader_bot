@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose'
-// import { SubscriptionTypes } from 'src/modules/finance/enums/subscription-types.enum'
+import { SubscriptionTypes } from 'src/modules/finance/enums/subscription-types.enum'
 import { Account } from '../account.schema'
 import { Subscription } from './subscription.schema'
 
@@ -15,8 +15,8 @@ export class AccountsSubscriptions
     @Prop({ type: MongooseSchema.Types.ObjectId, ref: Subscription.name })
     subscription: string
 
-    // @Prop({ type: String, enum: SubscriptionTypes })
-    // type?: SubscriptionTypes
+    @Prop({ type: String, enum: SubscriptionTypes })
+    type?: SubscriptionTypes
 
     @Prop({ type: Date })
     startedAt?: Date

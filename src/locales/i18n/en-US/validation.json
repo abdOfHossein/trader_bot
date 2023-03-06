@@ -1,0 +1,9 @@
+{
+    "is_not_empty_object": "The $t(fields.lower_case.{field}) can not be empty",
+    "is_number": "The $t(fields.lower_case.{field}) value must be number",
+    "is_number_string": "The $t(fields.lower_case.{field}) value must be string number",
+    "is_optional": "The $t(fields.lower_case.{field}) value is optional",
+    "is_string": "The $t(fields.lower_case.{field}) value must be string",
+    "length": "The $t(fields.lower_case.{field}) length must be {length}",
+    "length_string": "The $t(fields.lower_case.{field}) length must be {length} characters"
+}
