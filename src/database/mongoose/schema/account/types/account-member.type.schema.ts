@@ -7,16 +7,20 @@ export type AccountMemberDocument = HydratedDocument<AccountMember>
 export class AccountMember
 {
     @Prop({ required: true, type: String })
-    nickname: string
-
-    @Prop({ type: String })
-    countryCode?: string
+    firstName: string
 
     @Prop({ required: true, type: String })
-    mobileNumber: string
+    lastName: string
 
-    @Prop({ type: String })
-    mediaId?: string
+    @Prop({ required: true, type: String, unique: true })
+    phonenumber: string
+    
+    @Prop({ required: true, type: String, unique: true })
+    email: string
+
+    @Prop({ required: true, type: String, unique: true })
+    username: string
+
 }
 
 export const AccountSettingsSchema = SchemaFactory.createForClass(AccountMember)
