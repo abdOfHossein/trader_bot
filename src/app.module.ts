@@ -1,24 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ThrottlerModule } from '@nestjs/throttler';
-import {
-  AcceptLanguageResolver,
-  CookieResolver,
-  HeaderResolver,
-  I18nModule,
-  QueryResolver,
-} from 'nestjs-i18n';
-import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
-import configLoader from './config/index';
-import * as path from 'path';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
+import configLoader from './config/index';
 import { Log, LogSchema } from './database/mongoose/schema/log.schema';
-import {
-  Meeting,
-  MeetingSchema,
-} from './database/mongoose/schema/meeting.schema';
 import { MongoLogger } from './loggers/mongo.logger';
 import { AuthManagerialModule } from './modules/auth/managerial/auth.managerial.module';
 
@@ -61,7 +47,6 @@ console.log(process.env.MONGO_INITDB_USERNAME);
     //   ],
     // }),
     MongooseModule.forFeature([
-      { name: Meeting.name, schema: MeetingSchema },
       { name: Log.name, schema: LogSchema },
     ]),
     AuthManagerialModule,
@@ -70,4 +55,4 @@ console.log(process.env.MONGO_INITDB_USERNAME);
   providers: [AppService, MongoLogger],
   exports: [MongoLogger],
 })
-export class AppModule {}
+export class AppModule { }

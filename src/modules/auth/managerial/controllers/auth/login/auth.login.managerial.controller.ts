@@ -9,7 +9,7 @@ import { loginLevelThreeDto } from '../../../dtos/auth/login/login.managerial.le
 import { AuthLoginManagerialLocalService } from '../../../services/auth.login.managerial.local.service'
 
 @ApiTags('Authentication')
-@UseGuards(ThrottlerBehindProxyGuard)
+// @UseGuards(ThrottlerBehindProxyGuard)
 @Controller('auth/login/managerial')
 export class AuthLoginManagerialController {
     constructor(private readonly authLoginManagerialLocalService: AuthLoginManagerialLocalService) { }
@@ -19,22 +19,21 @@ export class AuthLoginManagerialController {
     @Post()
     async loginLevelOne(@Body() { username, email, phonenumber }: LoginLevelOneDto) {
 
-        const validateData = username || email || phonenumber
-        let account = await this.authLoginManagerialLocalService.validateUser({ validateData })
-
+        const validateData = username
+        let account = await this.authLoginManagerialLocalService.validateUser(username)
         return this.authLoginManagerialLocalService.generateAccessTokenForTheAccount(account)
     }
 
-    @Throttle(3, 60)
-    @Post()
-    async loginLevelTwo(@Body() { password }: LoginLevelTwoDto) {
-        let account = await this.authLoginManagerialLocalService.validateUser({ password })
+    // @Throttle(3, 60)
+    // @Post()
+    // async loginLevelTwo(@Body() { password }: LoginLevelTwoDto) {
+    //     let account = await this.authLoginManagerialLocalService.validateUser( password )
 
-        return this.authLoginManagerialLocalService.generateAccessTokenForTheAccount(account)
-    }
+    //     return this.authLoginManagerialLocalService.generateAccessTokenForTheAccount(account)
+    // }
 
-    @Throttle(3, 60)
-    @Post()
-    async loginLevelThree(@Body() data: loginLevelThreeDto) {
-    }
+    // @Throttle(3, 60)
+    // @Post()
+    // async loginLevelThree(@Body() data: loginLevelThreeDto) {
+    // }
 }
