@@ -4,8 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
 import configLoader from './config/index';
+import { Account, AccountSchema } from './database/mongoose/schema/account.schema';
 import { Log, LogSchema } from './database/mongoose/schema/log.schema';
 import { MongoLogger } from './loggers/mongo.logger';
+import { AccountManagementManagerialModule } from './modules/accounts-management/managerial/account-management.managerial.module';
 import { AuthManagerialModule } from './modules/auth/managerial/auth.managerial.module';
 
 console.log(process.env.MONGO_INITDB_USERNAME);
@@ -24,7 +26,7 @@ console.log(process.env.MONGO_INITDB_USERNAME);
     //   ),
     // }),
     MongooseModule.forRoot(
-      'mongodb://127.0.0.1:27017/test'
+      'mongodb://127.0.0.1:27017/trader_bot'
       // `mongodb://${process.env.MONGO_INITDB_USERNAME }:${process.env.MONGO_INITDB_PASSWORD}@${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_INITDB_DATABASE}`,
     ),
     // I18nModule.forRoot({
@@ -47,9 +49,11 @@ console.log(process.env.MONGO_INITDB_USERNAME);
     //   ],
     // }),
     MongooseModule.forFeature([
+      { name: Account.name, schema: AccountSchema },
       { name: Log.name, schema: LogSchema },
     ]),
     AuthManagerialModule,
+    AccountManagementManagerialModule
   ],
   controllers: [AppController],
   providers: [AppService, MongoLogger],

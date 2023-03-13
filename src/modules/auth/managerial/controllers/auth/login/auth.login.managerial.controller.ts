@@ -1,27 +1,25 @@
-import { Body, Controller, Post } from '@nestjs/common'
-import { UseGuards } from '@nestjs/common/decorators'
+import { Body, CACHE_MANAGER, Controller, Inject, Post } from '@nestjs/common'
+import { Cache } from 'cache-manager'
 import { ApiTags } from '@nestjs/swagger'
 import { Throttle } from '@nestjs/throttler'
-import { ThrottlerBehindProxyGuard } from 'src/modules/global/guards/throttler-behind-proxy.guard'
 import { LoginLevelOneDto } from '../../../dtos/auth/login/login.managerial.level-one.dto'
-import { LoginLevelTwoDto } from '../../../dtos/auth/login/login.managerial.level-three.dto'
-import { loginLevelThreeDto } from '../../../dtos/auth/login/login.managerial.level-two.dto'
 import { AuthLoginManagerialLocalService } from '../../../services/auth.login.managerial.local.service'
 
 @ApiTags('Authentication')
 // @UseGuards(ThrottlerBehindProxyGuard)
 @Controller('auth/login/managerial')
 export class AuthLoginManagerialController {
-    constructor(private readonly authLoginManagerialLocalService: AuthLoginManagerialLocalService) { }
+    constructor(
+        // @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        private readonly authLoginManagerialLocalService: AuthLoginManagerialLocalService) { }
 
     // Generate level-1 token in interceptor
     @Throttle(3, 60)
     @Post()
     async loginLevelOne(@Body() { username, email, phonenumber }: LoginLevelOneDto) {
-
-        const validateData = username
         let account = await this.authLoginManagerialLocalService.validateUser(username)
-        return this.authLoginManagerialLocalService.generateAccessTokenForTheAccount(account)
+        console.log('account , loginLevelOne => ', account);
+        return this.authLoginManagerialLocalService.loginLevelOne(account)
     }
 
     // @Throttle(3, 60)

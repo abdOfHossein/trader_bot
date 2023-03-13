@@ -1,14 +1,11 @@
-import * as bcrypt from 'bcrypt'
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
-import { I18nContext } from 'nestjs-i18n'
-import { I18nTranslations } from 'src/generated/i18n.generated'
+import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { JwtService } from '@nestjs/jwt'
 // import { AccountTypeEnum } from 'src/modules/accounts-management/enums/account-type.enum'
 // import { AccountManagerialModel } from 'src/modules/accounts-management/models/account-managerial.model'
 import { InjectModel } from '@nestjs/mongoose'
-import { Account } from 'src/database/mongoose/schema/account.schema'
 import { Model } from 'mongoose'
+import { Account } from 'src/database/mongoose/schema/account.schema'
 
 @Injectable()
 export class AuthLoginManagerialLocalService {
@@ -41,14 +38,14 @@ export class AuthLoginManagerialLocalService {
         // throw new BadRequestException(i18n.t('auth.validation.username_or_password_is_incorrent'))
     }
 
-    generateAccessTokenForTheAccount(account) {
+    loginLevelOne(account) {
+        console.log('account in loginLevelOne',account);
+        
+        const token = String(Date.now()) + account.data.id
+        console.log(token);
+
         return {
-            access_token: this.jwtService.sign({ data: JSON.parse(account.toString()) }, {
-                algorithm: 'PS512',
-                issuer: 'Neshast Auth - Managerial Dashboard',
-                expiresIn: '1d',
-                privateKey: this.configService.get('secret.auth.managerial.accessToken.privateKey'),
-            }),
+            token
         }
     }
 
